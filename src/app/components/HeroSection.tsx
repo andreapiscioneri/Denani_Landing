@@ -247,7 +247,7 @@ export function HeroSection() {
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded"
             style={{
               border: "1px solid rgba(102,242,223,0.35)",
-              color: "rgb(219, 219, 219)",
+              color: "#66F2DF",              
               fontFamily: "'Roboto', sans-serif",
               fontWeight: 500,
               fontSize: "0.9rem",
@@ -256,7 +256,7 @@ export function HeroSection() {
             }}
             whileHover={{
               borderColor: ACCENT,
-              color: "#fff",
+              color: "#66F2DF",
               backgroundColor: "rgba(102,242,223,0.06)",
               scale: 1.02,
             }}
