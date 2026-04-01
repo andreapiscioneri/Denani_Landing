@@ -214,7 +214,8 @@ export function PacchettiSection() {
                     Canone mensile
                   </span>
                   <div style={{ color: "#66F2DF", fontFamily: "'Roboto', sans-serif", fontSize: "1.6rem", fontWeight: 700, marginTop: "0.25rem" }}>
-                    [Euro]
+                    [Euro]{" "}
+                    <span style={{ fontSize: "0.85rem", fontWeight: 400, opacity: 0.7 }}>/ mese</span>
                   </div>
                 </div>
 

@@ -196,7 +196,8 @@ export function ModuliSection() {
                     A partire da
                   </span>
                   <span style={{ color: ACCENT, fontFamily: "'Roboto', sans-serif", fontSize: "1.1rem", fontWeight: 700, marginTop: "2px", display: "block" }}>
-                    {m.prezzo}
+                    {m.prezzo}{" "}
+                    <span style={{ fontSize: "0.72rem", fontWeight: 400, opacity: 0.7 }}>/ mese</span>
                   </span>
                 </div>
 

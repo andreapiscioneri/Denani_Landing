@@ -1,6 +1,8 @@
 import { Mail, MapPin, ArrowUpRight, Linkedin, Instagram, Facebook } from "lucide-react";
 import { motion } from "motion/react";
+import { useState } from "react";
 import logoImg from "../../imports/STICKY-LOGO3.png";
+import { generateBrochurePdf } from "./BrochurePage";
 
 const ACCENT = "#66F2DF";
 
@@ -52,6 +54,21 @@ const socialLinks = [
 ];
 
 export function FooterSection() {
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleScaricaBrochure = async () => {
+    if (isDownloading) return;
+    setIsDownloading(true);
+    try {
+      await generateBrochurePdf();
+    } catch (err) {
+      console.error("Errore generazione PDF:", err);
+      alert("Non sono riuscito a generare il PDF. Riprova tra qualche secondo.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <footer
       style={{ background: "#000000", fontFamily: "'Roboto', sans-serif" }}
@@ -115,10 +132,9 @@ export function FooterSection() {
             Contattaci per ricevere un preventivo personalizzato.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-            <motion.a
-              href="/Denani-brochure"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.button
+              onClick={handleScaricaBrochure}
+              disabled={isDownloading}
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded"
               style={{
                 border: "1px solid rgba(102,242,223,0.45)",
@@ -126,16 +142,18 @@ export function FooterSection() {
                 fontFamily: "'Roboto', sans-serif",
                 fontWeight: 600,
                 fontSize: "0.95rem",
-                textDecoration: "none",
+                background: "transparent",
                 letterSpacing: "0.03em",
+                cursor: isDownloading ? "wait" : "pointer",
+                opacity: isDownloading ? 0.7 : 1,
               }}
-              whileHover={{ scale: 1.04, borderColor: ACCENT, backgroundColor: "rgba(102,242,223,0.07)" }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={isDownloading ? {} : { scale: 1.04, borderColor: ACCENT, backgroundColor: "rgba(102,242,223,0.07)" }}
+              whileTap={isDownloading ? {} : { scale: 0.97 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              Scarica Brochure
-              <ArrowUpRight size={16} />
-            </motion.a>
+              {isDownloading ? "Generazione PDF..." : "Scarica Brochure"}
+              {!isDownloading && <ArrowUpRight size={16} />}
+            </motion.button>
             <motion.a
               href="mailto:support@denani.it"
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded"

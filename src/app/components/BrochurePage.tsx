@@ -1,11 +1,14 @@
 import logoImg from "../../imports/STICKY-LOGO3.png";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore – @types/react-dom not installed
+import { createRoot } from "react-dom/client";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import {
   Shield, Headphones, GraduationCap, Layers, Server,
   Target, RefreshCw, ShieldAlert, Zap, AlertTriangle, Lock, TrendingDown, FileX,
-  Check, Star, Clock, BookOpen, Paintbrush, Globe, Mail, MapPin,
+  Check, Clock, BookOpen, Paintbrush, Globe,
 } from "lucide-react";
 
 const A = "#66F2DF";
@@ -42,7 +45,7 @@ const moduli = [
 
 /* ─── SHARED HELPERS ────────────────────────────────────────────────────── */
 const Tag = ({ t }: { t: string }) => (
-  <span className="pdf-fix-pill" style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.55rem", height:"18px", padding:"0 7px", borderRadius:"3px", letterSpacing:"0.06em", display:"inline-block", lineHeight:"18px", whiteSpace:"nowrap", textAlign:"center" }}>{t}</span>
+  <span className="pdf-fix-pill" style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.55rem", height:"18px", padding:"0 7px", borderRadius:"3px", letterSpacing:"0.06em", display:"inline-flex", alignItems:"center", lineHeight:"1", whiteSpace:"nowrap", textAlign:"center" }}>{t}</span>
 );
 const SectionLabel = ({ children }: { children: string }) => (
   <span style={{ color:A, fontFamily:F, fontSize:"0.58rem", fontWeight:600, letterSpacing:"0.2em", textTransform:"uppercase", display:"block", marginBottom:"2.5mm" }}>{children}</span>
@@ -150,7 +153,7 @@ function CoverPage() {
             <img src={logoImg} alt="DeNani S.r.l." style={{ height:"24px", width:"auto", margin:"0 auto 3mm" }} />
             <div style={{ width:"42mm", height:"1px", background:`linear-gradient(90deg,transparent,${A},transparent)`, margin:"0 auto" }} />
           </div>
-          <div className="pdf-fix-pill" style={{ display:"inline-block", height:"24px", padding:"0 16px", border:`1px solid ${A}`, borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.58rem", letterSpacing:"0.14em", lineHeight:"24px", textTransform:"uppercase", whiteSpace:"nowrap", textAlign:"center", background:"rgba(102,242,223,0.06)", marginBottom:"6mm" }}>
+          <div className="pdf-fix-pill" style={{ display:"inline-flex", alignItems:"center", alignSelf:"center", width:"fit-content", height:"24px", padding:"0 16px", border:`1px solid ${A}`, borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.58rem", letterSpacing:"0.14em", lineHeight:"1", textTransform:"uppercase", whiteSpace:"nowrap", textAlign:"center", background:"transparent", marginBottom:"6mm" }}>
             Digital Agency · Web Management
           </div>
           <h1 style={{ color:W, fontFamily:F, fontSize:"3rem", fontWeight:700, lineHeight:1.08, letterSpacing:"-0.02em", marginBottom:"5mm" }}>
@@ -308,27 +311,22 @@ function PacchettiPage() {
         {pacchetti.map(p => (
           <div key={p.id} style={{
             border: p.featured ? `1.5px solid ${A}` : `1px solid ${CB}`,
-            background: p.featured ? "rgba(102,242,223,0.07)" : CBG,
+            background: CBG,
             borderRadius:"10px",
             padding:"5.5mm",
             display:"flex",
             flexDirection:"column",
             position:"relative",
-            boxShadow: p.featured ? `0 0 24px rgba(102,242,223,0.12)` : "none",
+            boxShadow:"none",
           }}>
-            {p.featured && (
-              <div style={{ position:"absolute", top:"-11px", left:"50%", transform:"translateX(-50%)", background:A, color:"#000", fontFamily:F, fontWeight:700, fontSize:"0.56rem", letterSpacing:"0.06em", padding:"0 12px", height:"18px", borderRadius:"999px", display:"inline-flex", alignItems:"center", gap:"4px", lineHeight:"18px", whiteSpace:"nowrap" }}>
-                <Star size={8} fill="#000" /> Più Scelto
-              </div>
-            )}
-            <span className="pdf-fix-pill" style={{ display:"inline-block", height:"18px", padding:"0 10px", borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.56rem", letterSpacing:"0.12em", lineHeight:"18px", textTransform:"uppercase", textAlign:"center", background: p.featured ? "rgba(102,242,223,0.18)" : "transparent", border: p.featured ? "none" : `1px solid rgba(102,242,223,0.28)`, marginBottom:"3.5mm", alignSelf:"flex-start", whiteSpace:"nowrap" }}>
+            <span className="pdf-fix-pill" style={{ display:"inline-flex", alignItems:"center", height:"18px", padding:"0 10px", borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.56rem", letterSpacing:"0.12em", lineHeight:"1", textTransform:"uppercase", textAlign:"center", background:"transparent", border:`1px solid rgba(102,242,223,0.28)`, marginBottom:"3.5mm", alignSelf:"flex-start", whiteSpace:"nowrap" }}>
               {p.label}
             </span>
             <h3 style={{ color:W, fontFamily:F, fontSize:"0.98rem", fontWeight:700, marginBottom:"1.5px" }}>{p.titolo}</h3>
             <p style={{ color:A, fontFamily:F, fontSize:"0.72rem", marginBottom:"3.5mm" }}>{p.sub}</p>
             <div style={{ borderBottom:"1px solid rgba(102,242,223,0.12)", paddingBottom:"3.5mm", marginBottom:"3.5mm" }}>
               <span style={{ color:T, fontFamily:F, fontSize:"0.68rem" }}>Canone mensile</span>
-              <div style={{ color:A, fontFamily:F, fontSize:"1.25rem", fontWeight:700, marginTop:"2px" }}>[Euro]</div>
+              <div style={{ color:A, fontFamily:F, fontSize:"1.25rem", fontWeight:700, marginTop:"2px" }}>[Euro]{" "}<span style={{ fontSize:"0.72rem", fontWeight:400, opacity:0.7 }}>/ mese</span></div>
             </div>
             <ul style={{ listStyle:"none", padding:0, margin:0, display:"flex", flexDirection:"column", gap:"4px" }}>
               {p.features.map((f,i) => (
@@ -351,7 +349,7 @@ function PacchettiPage() {
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PAGE 5 – MODULI + FOOTER AZIENDALE
-═══════════════════════════════════════════════════════════════════════════ */
+════════════════════════════════��══════════════════════════════════════════ */
 function ModuliPage() {
   return (
     <Page header="Moduli Aggiuntivi — 05" bg={BG2}>
@@ -365,12 +363,12 @@ function ModuliPage() {
           <div key={m.label} style={{ border:`1px solid ${CB}`, background:CBG, borderRadius:"8px", padding:"4.5mm", display:"flex", flexDirection:"column" }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"3.5mm" }}>
               {m.icon}
-              <span className="pdf-fix-pill" style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.56rem", height:"20px", padding:"0 8px", borderRadius:"999px", display:"inline-block", lineHeight:"20px", whiteSpace:"nowrap", textAlign:"center" }}>Modulo {m.label}</span>
+              <span className="pdf-fix-pill" style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.56rem", height:"20px", padding:"0 8px", borderRadius:"999px", display:"inline-flex", alignItems:"center", lineHeight:"1", whiteSpace:"nowrap", textAlign:"center" }}>Modulo {m.label}</span>
             </div>
             <h3 style={{ color:W, fontFamily:F, fontSize:"0.8rem", fontWeight:700, lineHeight:1.3, marginBottom:"2.5mm" }}>{m.titolo}</h3>
             <div style={{ borderBottom:"1px solid rgba(102,242,223,0.1)", paddingBottom:"2.5mm", marginBottom:"2.5mm" }}>
               <span style={{ color:T, fontFamily:F, fontSize:"0.56rem", textTransform:"uppercase", letterSpacing:"0.1em", display:"block" }}>A partire da</span>
-              <span style={{ color:A, fontFamily:F, fontSize:"0.95rem", fontWeight:700 }}>[EURO]</span>
+              <span style={{ color:A, fontFamily:F, fontSize:"0.95rem", fontWeight:700 }}>[EURO]{" "}<span style={{ fontSize:"0.6rem", fontWeight:400, opacity:0.7 }}>/ mese</span></span>
             </div>
             <p style={{ color:T, fontFamily:F, fontSize:"0.66rem", lineHeight:1.6, flex:1, marginBottom:"2.5mm" }}>{m.desc}</p>
             <ul style={{ listStyle:"none", padding:0, margin:0, display:"flex", flexDirection:"column", gap:"3px" }}>
@@ -396,12 +394,10 @@ function ModuliPage() {
           {/* Contatti */}
           <div>
             <p style={{ color:A, fontFamily:F, fontSize:"0.56rem", fontWeight:600, letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:"2.5mm" }}>Contatti</p>
-            <div style={{ display:"flex", alignItems:"center", gap:"4px", marginBottom:"4px" }}>
-              <Mail size={10} color={A} />
+            <div style={{ marginBottom:"4px" }}>
               <span style={{ color:T, fontFamily:F, fontSize:"0.66rem" }}>support@denani.it</span>
             </div>
-            <div style={{ display:"flex", alignItems:"center", gap:"4px" }}>
-              <span style={{ color:A, fontFamily:F, fontSize:"0.56rem", fontWeight:700 }}>PEC</span>
+            <div>
               <span style={{ color:T, fontFamily:F, fontSize:"0.66rem" }}>denani@pec.it</span>
             </div>
           </div>
@@ -410,17 +406,11 @@ function ModuliPage() {
             <p style={{ color:A, fontFamily:F, fontSize:"0.56rem", fontWeight:600, letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:"2.5mm" }}>Sedi</p>
             <div style={{ marginBottom:"3.5mm" }}>
               <p style={{ color:A, fontFamily:F, fontSize:"0.54rem", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"1.5px" }}>Sede Legale</p>
-              <div style={{ display:"flex", alignItems:"flex-start", gap:"3px" }}>
-                <MapPin size={9} color={A} style={{ marginTop:"1px", flexShrink:0 }} />
-                <span style={{ color:T, fontFamily:F, fontSize:"0.65rem", lineHeight:1.5 }}>Via Camozzi 1/C – 24027 Nembro (BG)</span>
-              </div>
+              <p style={{ color:T, fontFamily:F, fontSize:"0.65rem", lineHeight:1.5, margin:0 }}>Via Camozzi 1/C – 24027 Nembro (BG)</p>
             </div>
             <div>
               <p style={{ color:A, fontFamily:F, fontSize:"0.54rem", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"1.5px" }}>Sede Operativa</p>
-              <div style={{ display:"flex", alignItems:"flex-start", gap:"3px" }}>
-                <MapPin size={9} color={A} style={{ marginTop:"1px", flexShrink:0 }} />
-                <span style={{ color:T, fontFamily:F, fontSize:"0.65rem", lineHeight:1.5 }}>Via Galimberti 6A – 24124 Bergamo</span>
-              </div>
+              <p style={{ color:T, fontFamily:F, fontSize:"0.65rem", lineHeight:1.5, margin:0 }}>Via Galimberti 6A – 24124 Bergamo</p>
             </div>
           </div>
           {/* Dati aziendali */}
@@ -440,178 +430,177 @@ function ModuliPage() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   BROCHURE PAGES (no controls – used by generateBrochurePdf)
+═══════════════════════════════════════════════════════════════════════════ */
+function BrochurePages({ onReady }: { onReady?: () => void }) {
+  useEffect(() => {
+    // Wait 3 frames after DOM commit to ensure fonts + layout are stable
+    let id1: number, id2: number, id3: number;
+    id1 = requestAnimationFrame(() => {
+      id2 = requestAnimationFrame(() => {
+        id3 = requestAnimationFrame(() => onReady?.());
+      });
+    });
+    return () => { cancelAnimationFrame(id1); cancelAnimationFrame(id2); cancelAnimationFrame(id3); };
+  }, []);
+  return (
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"24px", padding:"24px", background:"#111" }}>
+      <CoverPage />
+      <PremessaPage />
+      <ServiziPage />
+      <PacchettiPage />
+      <ModuliPage />
+    </div>
+  );
+}
+
+/* ─── CSS VAR PATCH applied during pdf capture ──────────────────────────── */
+const PDF_COLOR_PATCH_CSS = `
+  :root {
+    --foreground:#252525;--card-foreground:#252525;--popover:#ffffff;
+    --popover-foreground:#252525;--primary-foreground:#ffffff;
+    --secondary:#eff1f4;--ring:#b3b3b3;
+  }
+  .dark {
+    --background:#252525;--foreground:#fafafa;--card:#252525;
+    --card-foreground:#fafafa;--popover:#252525;--popover-foreground:#fafafa;
+    --primary:#fafafa;--primary-foreground:#333333;--secondary:#454545;
+    --secondary-foreground:#fafafa;--muted:#454545;--muted-foreground:#b3b3b3;
+    --accent:#454545;--accent-foreground:#fafafa;--destructive:#8f3232;
+    --destructive-foreground:#d66d6d;--border:#454545;--input:#454545;
+    --ring:#707070;
+  }
+`;
+
+function fixPills(container: HTMLElement) {
+  // Pills are already defined with inline-flex + alignItems in the JSX.
+  // This is a safeguard pass to ensure lineHeight is correct before html2canvas capture.
+  container.querySelectorAll<HTMLElement>(".pdf-fix-pill").forEach((el) => {
+    el.style.alignItems = "center";
+    el.style.lineHeight = "1";
+    el.style.border = "none";
+    el.style.background = "transparent";
+    el.style.boxShadow = "none";
+  });
+}
+
+/* ─── EXPORTED PDF GENERATOR ────────────────────────────────────────────── */
+export async function generateBrochurePdf(): Promise<void> {
+  const patch = document.createElement("style");
+  patch.setAttribute("data-pdf-color-patch", "true");
+  patch.textContent = PDF_COLOR_PATCH_CSS;
+  document.head.appendChild(patch);
+
+  const stage = document.createElement("div");
+  stage.style.cssText = "position:fixed;left:-10000px;top:0;z-index:-1;background:#000;";
+  document.body.appendChild(stage);
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const root = createRoot(stage);
+
+  try {
+    // Render pages and wait for mount
+    await new Promise<void>((resolve) => {
+      root.render(<BrochurePages onReady={resolve} />);
+    });
+
+    // Wait for fonts
+    if ("fonts" in document) {
+      await (document as Document & { fonts: FontFaceSet }).fonts.ready;
+    }
+    await new Promise((r) => requestAnimationFrame(() => r(null)));
+
+    if ("fonts" in document) {
+      await (document as Document & { fonts: FontFaceSet }).fonts.ready;
+    }
+
+    const pages = Array.from(stage.querySelectorAll<HTMLElement>(".brochure-page"));
+    if (pages.length === 0) throw new Error("Nessuna pagina brochure trovata");
+
+    // Fix pills on every page before capture
+    pages.forEach(fixPills);
+    await new Promise((r) => requestAnimationFrame(() => r(null)));
+
+    const renderScale = Math.min(2.2, Math.max(1.8, window.devicePixelRatio || 2));
+    const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
+    pdf.setProperties({ title: "Denani Brochure website" });
+
+    const pageWidth  = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    for (let i = 0; i < pages.length; i++) {
+      const page = pages[i];
+      const rect = page.getBoundingClientRect();
+      const width  = Math.round(rect.width);
+      const height = Math.round(rect.height);
+
+      const canvas = await html2canvas(page, {
+        scale: renderScale,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: "#000000",
+        logging: false,
+        imageTimeout: 15000,
+        removeContainer: false,
+        scrollX: 0,
+        scrollY: 0,
+        width,
+        height,
+        windowWidth: width,
+        windowHeight: height,
+      });
+
+      if (i > 0) pdf.addPage();
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, pageWidth, pageHeight, undefined, "FAST");
+    }
+
+    const blob = pdf.output("blob");
+    const namedPdfFile = new File([blob], "Denani Brochure website.pdf", { type: "application/pdf" });
+    const url = URL.createObjectURL(namedPdfFile);
+    const win = window.open(url, "_blank", "noopener,noreferrer");
+    if (!win) throw new Error("Popup bloccato dal browser");
+
+    const applyWindowTitle = () => {
+      try {
+        win.document.title = "Denani Brochure website";
+      } catch {
+        // Some browsers lock title access for PDF viewer contexts.
+      }
+    };
+
+    if (win.document.readyState === "complete") {
+      applyWindowTitle();
+    } else {
+      win.addEventListener("load", applyWindowTitle, { once: true });
+    }
+
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  } finally {
+    patch.remove();
+    root.unmount();
+    stage.remove();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    ROOT
 ═══════════════════════════════════════════════════════════════════════════ */
 export function BrochurePage() {
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const isExportingPdfRef = useRef(false);
 
   const handleSavePdf = async () => {
-    if (!wrapperRef.current || isExportingPdfRef.current) return;
-
+    if (isExportingPdfRef.current) return;
     isExportingPdfRef.current = true;
     setIsExportingPdf(true);
-    const pdfColorPatch = document.createElement("style");
-    pdfColorPatch.setAttribute("data-pdf-color-patch", "true");
-    pdfColorPatch.textContent = `
-      :root {
-        --foreground: #252525;
-        --card-foreground: #252525;
-        --popover: #ffffff;
-        --popover-foreground: #252525;
-        --primary-foreground: #ffffff;
-        --secondary: #eff1f4;
-        --ring: #b3b3b3;
-        --chart-1: #b86f42;
-        --chart-2: #3f9a9a;
-        --chart-3: #4f617b;
-        --chart-4: #d0ab45;
-        --chart-5: #d59448;
-        --sidebar: #fafafa;
-        --sidebar-foreground: #252525;
-        --sidebar-primary-foreground: #fafafa;
-        --sidebar-accent: #f2f2f2;
-        --sidebar-accent-foreground: #333333;
-        --sidebar-border: #e6e6e6;
-        --sidebar-ring: #b3b3b3;
-      }
-      .dark {
-        --background: #252525;
-        --foreground: #fafafa;
-        --card: #252525;
-        --card-foreground: #fafafa;
-        --popover: #252525;
-        --popover-foreground: #fafafa;
-        --primary: #fafafa;
-        --primary-foreground: #333333;
-        --secondary: #454545;
-        --secondary-foreground: #fafafa;
-        --muted: #454545;
-        --muted-foreground: #b3b3b3;
-        --accent: #454545;
-        --accent-foreground: #fafafa;
-        --destructive: #8f3232;
-        --destructive-foreground: #d66d6d;
-        --border: #454545;
-        --input: #454545;
-        --ring: #707070;
-        --chart-1: #4a6eff;
-        --chart-2: #5eb9a5;
-        --chart-3: #d59448;
-        --chart-4: #9d57c4;
-        --chart-5: #c75a4d;
-        --sidebar: #333333;
-        --sidebar-foreground: #fafafa;
-        --sidebar-primary: #4a6eff;
-        --sidebar-primary-foreground: #fafafa;
-        --sidebar-accent: #454545;
-        --sidebar-accent-foreground: #fafafa;
-        --sidebar-border: #454545;
-        --sidebar-ring: #707070;
-      }
-    `;
-    document.head.appendChild(pdfColorPatch);
     try {
-      document.title = "Denani Brochure";
-      if ("fonts" in document) {
-        await (document as Document & { fonts: FontFaceSet }).fonts.ready;
-      }
-      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
-      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
-
-      const pages = Array.from(wrapperRef.current.querySelectorAll<HTMLElement>(".brochure-page"));
-      if (pages.length === 0) {
-        throw new Error("Nessuna pagina brochure trovata");
-      }
-
-      const renderScale = Math.min(2.2, Math.max(1.8, window.devicePixelRatio || 2));
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
-      pdf.setProperties({ title: "Denani Brochure" });
-
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-
-      for (let i = 0; i < pages.length; i += 1) {
-        const sourcePage = pages[i];
-        const rect = sourcePage.getBoundingClientRect();
-        const width = Math.round(rect.width);
-        const height = Math.round(rect.height);
-
-        const stage = document.createElement("div");
-        stage.style.position = "fixed";
-        stage.style.left = "-10000px";
-        stage.style.top = "0";
-        stage.style.zIndex = "-1";
-        stage.style.padding = "0";
-        stage.style.margin = "0";
-        stage.style.background = "#000000";
-
-        const pageClone = sourcePage.cloneNode(true) as HTMLElement;
-        pageClone.style.margin = "0";
-        pageClone.style.transform = "none";
-        pageClone.style.boxShadow = "none";
-        pageClone.style.width = `${width}px`;
-        pageClone.style.height = `${height}px`;
-
-        pageClone.querySelectorAll<HTMLElement>(".pdf-fix-pill").forEach((el) => {
-          const h = parseFloat(el.style.height || "0");
-          el.style.display = "inline-flex";
-          el.style.alignItems = "center";
-          el.style.justifyContent = "center";
-          el.style.textAlign = "center";
-          el.style.whiteSpace = "nowrap";
-          el.style.verticalAlign = "middle";
-          el.style.paddingTop = "0";
-          el.style.paddingBottom = "0";
-          if (h > 0) {
-            el.style.lineHeight = `${h}px`;
-          }
-        });
-
-        stage.appendChild(pageClone);
-        document.body.appendChild(stage);
-        await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
-
-        const canvas = await html2canvas(pageClone, {
-          scale: renderScale,
-          useCORS: true,
-          allowTaint: false,
-          backgroundColor: "#000000",
-          logging: false,
-          imageTimeout: 15000,
-          removeContainer: true,
-          scrollX: 0,
-          scrollY: 0,
-          width,
-          height,
-          windowWidth: width,
-          windowHeight: height,
-        });
-
-        stage.remove();
-
-        const imageData = canvas.toDataURL("image/png");
-        if (i > 0) {
-          pdf.addPage();
-        }
-        pdf.addImage(imageData, "PNG", 0, 0, pageWidth, pageHeight, undefined, "FAST");
-      }
-
-      const pdfBlob = pdf.output("blob");
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      const opened = window.open(pdfUrl, "_blank", "noopener,noreferrer");
-      if (!opened) {
-        URL.revokeObjectURL(pdfUrl);
-        throw new Error("Popup bloccato dal browser");
-      }
-      setTimeout(() => URL.revokeObjectURL(pdfUrl), 60000);
+      await generateBrochurePdf();
     } catch (error) {
       console.error("Errore durante il salvataggio PDF:", error);
       const details = error instanceof Error ? `\nDettagli: ${error.message}` : "";
       alert(`Non sono riuscito a generare il PDF. Riprova tra qualche secondo.${details}`);
     } finally {
-      pdfColorPatch.remove();
       isExportingPdfRef.current = false;
       setIsExportingPdf(false);
     }
@@ -660,7 +649,7 @@ export function BrochurePage() {
         </button>
       </div>
 
-      <div ref={wrapperRef} className="brochure-wrapper">
+      <div className="brochure-wrapper">
         <CoverPage />
         <PremessaPage />
         <ServiziPage />
