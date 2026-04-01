@@ -112,7 +112,7 @@ export function FooterSection() {
               lineHeight: 1.6,
             }}
           >
-            Contattaci per ricevere un preventivo personalizzato. Il tuo sito merita il meglio.
+            Contattaci per ricevere un preventivo personalizzato.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <motion.a

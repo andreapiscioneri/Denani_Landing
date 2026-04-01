@@ -463,38 +463,34 @@ export function BrochurePage() {
       }
 
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const renderScale = Math.min(2, Math.max(1.2, window.devicePixelRatio || 1.6));
 
       for (let i = 0; i < pages.length; i += 1) {
         const page = pages[i];
         const canvas = await html2canvas(page, {
-          scale: 1.6,
+          scale: renderScale,
           useCORS: true,
-          allowTaint: true,
+          allowTaint: false,
           backgroundColor: "#000000",
           logging: false,
+          imageTimeout: 15000,
+          removeContainer: true,
         });
+
+        if (canvas.width === 0 || canvas.height === 0) {
+          throw new Error(`Rendering pagina ${i + 1} non valido`);
+        }
 
         const imageData = canvas.toDataURL("image/png");
         if (i > 0) {
           pdf.addPage();
         }
-        pdf.addImage(imageData, "PNG", 0, 0, 210, 297, undefined, "FAST");
+        pdf.addImage(imageData, "PNG", 0, 0, pageWidth, pageHeight, undefined, "FAST");
       }
 
-      const pdfBlob = pdf.output("blob");
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      const newTab = window.open(pdfUrl, "_blank", "noopener,noreferrer");
-
-      if (!newTab) {
-        const link = document.createElement("a");
-        link.href = pdfUrl;
-        link.download = "Brochure-DeNani-2026.pdf";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      }
-
-      setTimeout(() => URL.revokeObjectURL(pdfUrl), 60000);
+      pdf.save("Brochure-DeNani-2026.pdf");
     } catch (error) {
       console.error("Errore durante il salvataggio PDF:", error);
       alert("Non sono riuscito a generare il PDF. Riprova tra qualche secondo.");
