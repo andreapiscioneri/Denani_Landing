@@ -559,7 +559,17 @@ export async function generateBrochurePdf(): Promise<void> {
     const namedPdfFile = new File([blob], "Denani Brochure website.pdf", { type: "application/pdf" });
     const url = URL.createObjectURL(namedPdfFile);
     const win = window.open(url, "_blank", "noopener,noreferrer");
-    if (!win) throw new Error("Popup bloccato dal browser");
+    if (!win) {
+      // Fallback: if popup is blocked, trigger a direct file download.
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "Denani Brochure website.pdf";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      return;
+    }
 
     const applyWindowTitle = () => {
       try {
@@ -569,10 +579,14 @@ export async function generateBrochurePdf(): Promise<void> {
       }
     };
 
-    if (win.document.readyState === "complete") {
-      applyWindowTitle();
-    } else {
-      win.addEventListener("load", applyWindowTitle, { once: true });
+    try {
+      if (win.document.readyState === "complete") {
+        applyWindowTitle();
+      } else {
+        win.addEventListener("load", applyWindowTitle, { once: true });
+      }
+    } catch {
+      // Best effort only: PDF may already be open even if the viewer context is locked.
     }
 
     setTimeout(() => URL.revokeObjectURL(url), 60_000);
