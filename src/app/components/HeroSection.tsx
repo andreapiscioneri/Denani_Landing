@@ -168,7 +168,7 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.4 }}
           whileHover={{ scale: 1.06, backgroundColor: "rgba(102,242,223,0.12)" }}
         >
-          Agenzia Tech · Web Management
+          Digital Agency · Web Management
         </motion.div>
 
         {/* Main heading */}

@@ -151,7 +151,7 @@ function CoverPage() {
             <div style={{ width:"42mm", height:"1px", background:`linear-gradient(90deg,transparent,${A},transparent)`, margin:"0 auto" }} />
           </div>
           <div className="pdf-fix-pill" style={{ display:"inline-block", height:"24px", padding:"0 16px", border:`1px solid ${A}`, borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.58rem", letterSpacing:"0.14em", lineHeight:"24px", textTransform:"uppercase", whiteSpace:"nowrap", textAlign:"center", background:"rgba(102,242,223,0.06)", marginBottom:"6mm" }}>
-            Agenzia Tech · Web Management
+            Digital Agency · Web Management
           </div>
           <h1 style={{ color:W, fontFamily:F, fontSize:"3rem", fontWeight:700, lineHeight:1.08, letterSpacing:"-0.02em", marginBottom:"5mm" }}>
             <span style={{ color:A }}>Il tuo sito web sempre</span><br />operativo e aggiornato
