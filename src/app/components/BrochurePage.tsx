@@ -42,7 +42,7 @@ const moduli = [
 
 /* ─── SHARED HELPERS ────────────────────────────────────────────────────── */
 const Tag = ({ t }: { t: string }) => (
-  <span style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.55rem", padding:"2px 7px", borderRadius:"3px", letterSpacing:"0.06em" }}>{t}</span>
+  <span className="pdf-fix-pill" style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.55rem", height:"18px", padding:"0 7px", borderRadius:"3px", letterSpacing:"0.06em", display:"inline-block", lineHeight:"18px", whiteSpace:"nowrap", textAlign:"center" }}>{t}</span>
 );
 const SectionLabel = ({ children }: { children: string }) => (
   <span style={{ color:A, fontFamily:F, fontSize:"0.58rem", fontWeight:600, letterSpacing:"0.2em", textTransform:"uppercase", display:"block", marginBottom:"2.5mm" }}>{children}</span>
@@ -150,7 +150,7 @@ function CoverPage() {
             <img src={logoImg} alt="DeNani S.r.l." style={{ height:"24px", width:"auto", margin:"0 auto 3mm" }} />
             <div style={{ width:"42mm", height:"1px", background:`linear-gradient(90deg,transparent,${A},transparent)`, margin:"0 auto" }} />
           </div>
-          <div style={{ display:"inline-block", padding:"4px 16px", border:`1px solid ${A}`, borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.58rem", letterSpacing:"0.14em", textTransform:"uppercase", background:"rgba(102,242,223,0.06)", marginBottom:"6mm" }}>
+          <div className="pdf-fix-pill" style={{ display:"inline-block", height:"24px", padding:"0 16px", border:`1px solid ${A}`, borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.58rem", letterSpacing:"0.14em", lineHeight:"24px", textTransform:"uppercase", whiteSpace:"nowrap", textAlign:"center", background:"rgba(102,242,223,0.06)", marginBottom:"6mm" }}>
             Agenzia Tech · Web Management
           </div>
           <h1 style={{ color:W, fontFamily:F, fontSize:"3rem", fontWeight:700, lineHeight:1.08, letterSpacing:"-0.02em", marginBottom:"5mm" }}>
@@ -317,11 +317,11 @@ function PacchettiPage() {
             boxShadow: p.featured ? `0 0 24px rgba(102,242,223,0.12)` : "none",
           }}>
             {p.featured && (
-              <div style={{ position:"absolute", top:"-11px", left:"50%", transform:"translateX(-50%)", background:A, color:"#000", fontFamily:F, fontWeight:700, fontSize:"0.56rem", letterSpacing:"0.06em", padding:"2px 12px", borderRadius:"999px", display:"flex", alignItems:"center", gap:"4px", whiteSpace:"nowrap" }}>
+              <div style={{ position:"absolute", top:"-11px", left:"50%", transform:"translateX(-50%)", background:A, color:"#000", fontFamily:F, fontWeight:700, fontSize:"0.56rem", letterSpacing:"0.06em", padding:"0 12px", height:"18px", borderRadius:"999px", display:"inline-flex", alignItems:"center", gap:"4px", lineHeight:"18px", whiteSpace:"nowrap" }}>
                 <Star size={8} fill="#000" /> Più Scelto
               </div>
             )}
-            <span style={{ display:"inline-block", padding:"2px 10px", borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.56rem", letterSpacing:"0.12em", textTransform:"uppercase", background: p.featured ? "rgba(102,242,223,0.18)" : "transparent", border: p.featured ? "none" : `1px solid rgba(102,242,223,0.28)`, marginBottom:"3.5mm", alignSelf:"flex-start" }}>
+            <span className="pdf-fix-pill" style={{ display:"inline-block", height:"18px", padding:"0 10px", borderRadius:"999px", color:A, fontFamily:F, fontSize:"0.56rem", letterSpacing:"0.12em", lineHeight:"18px", textTransform:"uppercase", textAlign:"center", background: p.featured ? "rgba(102,242,223,0.18)" : "transparent", border: p.featured ? "none" : `1px solid rgba(102,242,223,0.28)`, marginBottom:"3.5mm", alignSelf:"flex-start", whiteSpace:"nowrap" }}>
               {p.label}
             </span>
             <h3 style={{ color:W, fontFamily:F, fontSize:"0.98rem", fontWeight:700, marginBottom:"1.5px" }}>{p.titolo}</h3>
@@ -365,7 +365,7 @@ function ModuliPage() {
           <div key={m.label} style={{ border:`1px solid ${CB}`, background:CBG, borderRadius:"8px", padding:"4.5mm", display:"flex", flexDirection:"column" }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"3.5mm" }}>
               {m.icon}
-              <span style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.56rem", padding:"2px 7px", borderRadius:"999px" }}>Modulo {m.label}</span>
+              <span className="pdf-fix-pill" style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.56rem", height:"20px", padding:"0 8px", borderRadius:"999px", display:"inline-block", lineHeight:"20px", whiteSpace:"nowrap", textAlign:"center" }}>Modulo {m.label}</span>
             </div>
             <h3 style={{ color:W, fontFamily:F, fontSize:"0.8rem", fontWeight:700, lineHeight:1.3, marginBottom:"2.5mm" }}>{m.titolo}</h3>
             <div style={{ borderBottom:"1px solid rgba(102,242,223,0.1)", paddingBottom:"2.5mm", marginBottom:"2.5mm" }}>
@@ -445,12 +445,75 @@ function ModuliPage() {
 export function BrochurePage() {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const isExportingPdfRef = useRef(false);
 
   const handleSavePdf = async () => {
-    if (!wrapperRef.current || isExportingPdf) return;
+    if (!wrapperRef.current || isExportingPdfRef.current) return;
 
+    isExportingPdfRef.current = true;
     setIsExportingPdf(true);
+    const pdfColorPatch = document.createElement("style");
+    pdfColorPatch.setAttribute("data-pdf-color-patch", "true");
+    pdfColorPatch.textContent = `
+      :root {
+        --foreground: #252525;
+        --card-foreground: #252525;
+        --popover: #ffffff;
+        --popover-foreground: #252525;
+        --primary-foreground: #ffffff;
+        --secondary: #eff1f4;
+        --ring: #b3b3b3;
+        --chart-1: #b86f42;
+        --chart-2: #3f9a9a;
+        --chart-3: #4f617b;
+        --chart-4: #d0ab45;
+        --chart-5: #d59448;
+        --sidebar: #fafafa;
+        --sidebar-foreground: #252525;
+        --sidebar-primary-foreground: #fafafa;
+        --sidebar-accent: #f2f2f2;
+        --sidebar-accent-foreground: #333333;
+        --sidebar-border: #e6e6e6;
+        --sidebar-ring: #b3b3b3;
+      }
+      .dark {
+        --background: #252525;
+        --foreground: #fafafa;
+        --card: #252525;
+        --card-foreground: #fafafa;
+        --popover: #252525;
+        --popover-foreground: #fafafa;
+        --primary: #fafafa;
+        --primary-foreground: #333333;
+        --secondary: #454545;
+        --secondary-foreground: #fafafa;
+        --muted: #454545;
+        --muted-foreground: #b3b3b3;
+        --accent: #454545;
+        --accent-foreground: #fafafa;
+        --destructive: #8f3232;
+        --destructive-foreground: #d66d6d;
+        --border: #454545;
+        --input: #454545;
+        --ring: #707070;
+        --chart-1: #4a6eff;
+        --chart-2: #5eb9a5;
+        --chart-3: #d59448;
+        --chart-4: #9d57c4;
+        --chart-5: #c75a4d;
+        --sidebar: #333333;
+        --sidebar-foreground: #fafafa;
+        --sidebar-primary: #4a6eff;
+        --sidebar-primary-foreground: #fafafa;
+        --sidebar-accent: #454545;
+        --sidebar-accent-foreground: #fafafa;
+        --sidebar-border: #454545;
+        --sidebar-ring: #707070;
+      }
+    `;
+    document.head.appendChild(pdfColorPatch);
     try {
+      document.title = "Denani Brochure";
       if ("fonts" in document) {
         await (document as Document & { fonts: FontFaceSet }).fonts.ready;
       }
@@ -462,14 +525,55 @@ export function BrochurePage() {
         throw new Error("Nessuna pagina brochure trovata");
       }
 
+      const renderScale = Math.min(2.2, Math.max(1.8, window.devicePixelRatio || 2));
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
+      pdf.setProperties({ title: "Denani Brochure" });
+
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const renderScale = Math.min(2, Math.max(1.2, window.devicePixelRatio || 1.6));
 
       for (let i = 0; i < pages.length; i += 1) {
-        const page = pages[i];
-        const canvas = await html2canvas(page, {
+        const sourcePage = pages[i];
+        const rect = sourcePage.getBoundingClientRect();
+        const width = Math.round(rect.width);
+        const height = Math.round(rect.height);
+
+        const stage = document.createElement("div");
+        stage.style.position = "fixed";
+        stage.style.left = "-10000px";
+        stage.style.top = "0";
+        stage.style.zIndex = "-1";
+        stage.style.padding = "0";
+        stage.style.margin = "0";
+        stage.style.background = "#000000";
+
+        const pageClone = sourcePage.cloneNode(true) as HTMLElement;
+        pageClone.style.margin = "0";
+        pageClone.style.transform = "none";
+        pageClone.style.boxShadow = "none";
+        pageClone.style.width = `${width}px`;
+        pageClone.style.height = `${height}px`;
+
+        pageClone.querySelectorAll<HTMLElement>(".pdf-fix-pill").forEach((el) => {
+          const h = parseFloat(el.style.height || "0");
+          el.style.display = "inline-flex";
+          el.style.alignItems = "center";
+          el.style.justifyContent = "center";
+          el.style.textAlign = "center";
+          el.style.whiteSpace = "nowrap";
+          el.style.verticalAlign = "middle";
+          el.style.paddingTop = "0";
+          el.style.paddingBottom = "0";
+          if (h > 0) {
+            el.style.lineHeight = `${h}px`;
+          }
+        });
+
+        stage.appendChild(pageClone);
+        document.body.appendChild(stage);
+        await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+
+        const canvas = await html2canvas(pageClone, {
           scale: renderScale,
           useCORS: true,
           allowTaint: false,
@@ -477,11 +581,15 @@ export function BrochurePage() {
           logging: false,
           imageTimeout: 15000,
           removeContainer: true,
+          scrollX: 0,
+          scrollY: 0,
+          width,
+          height,
+          windowWidth: width,
+          windowHeight: height,
         });
 
-        if (canvas.width === 0 || canvas.height === 0) {
-          throw new Error(`Rendering pagina ${i + 1} non valido`);
-        }
+        stage.remove();
 
         const imageData = canvas.toDataURL("image/png");
         if (i > 0) {
@@ -490,11 +598,21 @@ export function BrochurePage() {
         pdf.addImage(imageData, "PNG", 0, 0, pageWidth, pageHeight, undefined, "FAST");
       }
 
-      pdf.save("Brochure-DeNani-2026.pdf");
+      const pdfBlob = pdf.output("blob");
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      const opened = window.open(pdfUrl, "_blank", "noopener,noreferrer");
+      if (!opened) {
+        URL.revokeObjectURL(pdfUrl);
+        throw new Error("Popup bloccato dal browser");
+      }
+      setTimeout(() => URL.revokeObjectURL(pdfUrl), 60000);
     } catch (error) {
       console.error("Errore durante il salvataggio PDF:", error);
-      alert("Non sono riuscito a generare il PDF. Riprova tra qualche secondo.");
+      const details = error instanceof Error ? `\nDettagli: ${error.message}` : "";
+      alert(`Non sono riuscito a generare il PDF. Riprova tra qualche secondo.${details}`);
     } finally {
+      pdfColorPatch.remove();
+      isExportingPdfRef.current = false;
       setIsExportingPdf(false);
     }
   };

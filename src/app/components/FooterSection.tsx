@@ -116,7 +116,7 @@ export function FooterSection() {
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <motion.a
-              href="/?brochure=1"
+              href="/Denani-brochure"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded"
