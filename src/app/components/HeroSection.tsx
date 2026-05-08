@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion, useMotionValue, useSpring, animate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import logoImg from "../../imports/STICKY-LOGO3.png";
@@ -210,60 +210,86 @@ export function HeroSection() {
           Affidati a chi conosce il codice dietro al tuo business.
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTA — due tab landing */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col sm:flex-row gap-5 justify-center items-stretch"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.9 }}
         >
+          {/* Tab: Nuovi Clienti */}
           <motion.a
-            href="mailto:support@denani.it"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded"
+            href="/nuovi-clienti"
             style={{
-              background: ACCENT,
-              color: "#000000",
-              fontFamily: "'Roboto', sans-serif",
-              fontWeight: 700,
-              fontSize: "0.9rem",
-              textDecoration: "none",
-              letterSpacing: "0.03em",
-            }}
-            whileHover={{ scale: 1.07, boxShadow: "0 0 40px rgba(102,242,223,0.55)" }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 18 }}
-          >
-            Richiedi Preventivo
-            <motion.span
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              style={{ display: "flex" }}
-            >
-              <ArrowRight size={16} />
-            </motion.span>
-          </motion.a>
-          <motion.a
-            href="#servizi"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded"
-            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: "8px",
+              padding: "20px 28px",
+              borderRadius: "10px",
               border: "1px solid rgba(102,242,223,0.35)",
-              color: "#66F2DF",              
-              fontFamily: "'Roboto', sans-serif",
-              fontWeight: 500,
-              fontSize: "0.9rem",
+              background: "rgba(102,242,223,0.04)",
               textDecoration: "none",
-              letterSpacing: "0.03em",
+              minWidth: "220px",
+              cursor: "pointer",
             }}
             whileHover={{
               borderColor: ACCENT,
-              color: "#66F2DF",
-              backgroundColor: "rgba(102,242,223,0.06)",
-              scale: 1.02,
+              backgroundColor: "rgba(102,242,223,0.09)",
+              scale: 1.03,
+              boxShadow: "0 0 32px rgba(102,242,223,0.18)",
             }}
             whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            transition={{ type: "spring", stiffness: 320, damping: 20 }}
           >
-            Scopri i Servizi
+            <span style={{ color: ACCENT, fontFamily: "'Roboto', sans-serif", fontSize: "0.58rem", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" }}>
+              Area nuovi clienti
+            </span>
+            <span style={{ color: "#FFFFFF", fontFamily: "'Roboto', sans-serif", fontSize: "1.05rem", fontWeight: 700, lineHeight: 1.3 }}>
+              Scopri le novità<br />e i nostri servizi
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: "6px", color: ACCENT, fontFamily: "'Roboto', sans-serif", fontSize: "0.78rem", marginTop: "4px" }}>
+              Vai alla brochure <ArrowRight size={13} />
+            </span>
+          </motion.a>
+
+          {/* Tab: Clienti in Essere */}
+          <motion.a
+            href="/clienti-in-essere"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: "8px",
+              padding: "20px 28px",
+              borderRadius: "10px",
+              border: `1.5px solid ${ACCENT}`,
+              background: "rgba(102,242,223,0.06)",
+              textDecoration: "none",
+              minWidth: "220px",
+              cursor: "pointer",
+              position: "relative",
+            }}
+            whileHover={{
+              backgroundColor: "rgba(102,242,223,0.13)",
+              scale: 1.03,
+              boxShadow: "0 0 40px rgba(102,242,223,0.28)",
+            }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 320, damping: 20 }}
+          >
+            <span style={{ position: "absolute", top: "-12px", left: "20px", background: "#000", border: `1px solid ${ACCENT}`, color: ACCENT, fontFamily: "'Roboto', sans-serif", fontSize: "0.52rem", letterSpacing: "0.14em", textTransform: "uppercase", padding: "2px 10px", borderRadius: "999px" }}>
+              Clienti attivi
+            </span>
+            <span style={{ color: ACCENT, fontFamily: "'Roboto', sans-serif", fontSize: "0.58rem", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" }}>
+              Area clienti in essere
+            </span>
+            <span style={{ color: "#FFFFFF", fontFamily: "'Roboto', sans-serif", fontSize: "1.05rem", fontWeight: 700, lineHeight: 1.3 }}>
+              Rinnovi, aggiornamenti<br />e nuove iniziative
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: "6px", color: ACCENT, fontFamily: "'Roboto', sans-serif", fontSize: "0.78rem", marginTop: "4px" }}>
+              Vai alla brochure <ArrowRight size={13} />
+            </span>
           </motion.a>
         </motion.div>
 
@@ -312,31 +338,6 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-      >
-        <span
-          style={{
-            color: "rgb(219, 219, 219)",
-            fontFamily: "'Roboto', sans-serif",
-            fontSize: "0.65rem",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-          }}
-        >
-          Scorri
-        </span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ChevronDown size={16} color="#66F2DF" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }

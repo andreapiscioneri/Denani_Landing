@@ -363,9 +363,9 @@ function ScadenzaServiziPage({ pageNum }: { pageNum: string }) {
       <AccentLine />
 
       {/* Testo legale richiesto */}
-      <div style={{ border:`1.5px solid rgba(255,180,60,0.4)`, background:"rgba(255,180,60,0.04)", borderRadius:"8px", padding:"5mm 6mm", marginBottom:"4.5mm", display:"flex", gap:"10px", flexShrink:0 }}>
-        <AlertCircle size={18} color="#FFB43C" style={{ flexShrink:0, marginTop:"2px" }} />
-        <p style={{ color:"rgb(230,210,180)", fontFamily:F, fontSize:"0.75rem", lineHeight:1.75, margin:0, fontStyle:"italic" }}>
+      <div style={{ border:`1.5px solid rgba(102,242,223,0.3)`, background:"rgba(102,242,223,0.04)", borderRadius:"8px", padding:"5mm 6mm", marginBottom:"4.5mm", display:"flex", gap:"10px", flexShrink:0 }}>
+        <AlertCircle size={18} color={A} style={{ flexShrink:0, marginTop:"2px" }} />
+        <p style={{ color:T, fontFamily:F, fontSize:"0.75rem", lineHeight:1.75, margin:0, fontStyle:"italic" }}>
           "I servizi attualmente attivi risultano prossimi alla naturale scadenza contrattuale. Si invita pertanto il Cliente a valutare la sottoscrizione dei nuovi servizi di maintenance, monitoraggio, compliance GDPR e gestione hosting, al fine di garantire continuità operativa, aggiornamenti tecnici e mantenimento online delle piattaforme digitali. In assenza di adesione entro i termini indicati, i servizi di collaborazione e assistenza continuativa si intenderanno decaduti e non più garantiti."
         </p>
       </div>
@@ -605,7 +605,7 @@ function BrochureShell({ tipo }: { tipo: "nuovi" | "essere" }) {
   const ref = useRef(false);
 
   const isEssere = tipo === "essere";
-  const filename = isEssere ? "Denani Brochure - Clienti in Essere" : "Denani Brochure - Nuovi Clienti";
+  const filename = isEssere ? "Denani Brochure - Clienti in essere" : "Denani Brochure - Nuovi clienti";
   const PagesComp = isEssere ? ClientiEsserePages : NuoviClientiPages;
 
   const handlePdf = async () => {

@@ -6,37 +6,18 @@ import logoImg from "../../imports/STICKY-LOGO3.png";
 const ACCENT = "#66F2DF";
 
 const navLinks = [
-  { label: "Premessa", href: "#premessa" },
-  { label: "Servizi", href: "#servizi" },
-  { label: "Pacchetti", href: "#pacchetti" },
-  { label: "Moduli", href: "#moduli" },
+  { label: "Nuovi clienti",    href: "/nuovi-clienti" },
+  { label: "Clienti in essere", href: "/clienti-in-essere" },
 ];
 
 export function NavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px" }
-    );
-    navLinks.forEach((link) => {
-      const el = document.querySelector(link.href);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
   }, []);
 
   return (
@@ -75,43 +56,25 @@ export function NavBar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {navLinks.map((link, i) => {
-            const isActive = activeSection === link.href.replace("#", "");
-            return (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                style={{
-                  color: isActive ? ACCENT : "rgb(219, 219, 219)",
-                  fontFamily: "'Roboto', sans-serif",
-                  fontSize: "0.85rem",
-                  textDecoration: "none",
-                  letterSpacing: "0.03em",
-                  position: "relative",
-                }}
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.25 + i * 0.07 }}
-                whileHover={{ color: "#FFFFFF", y: -1 }}
-              >
-                {link.label}
-                {isActive && (
-                  <motion.div
-                    layoutId="activeNav"
-                    style={{
-                      position: "absolute",
-                      bottom: "-4px",
-                      left: 0,
-                      right: 0,
-                      height: "1px",
-                      background: ACCENT,
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </motion.a>
-            );
-          })}
+          {navLinks.map((link, i) => (
+            <motion.a
+              key={link.href}
+              href={link.href}
+              style={{
+                color: "rgb(219, 219, 219)",
+                fontFamily: "'Roboto', sans-serif",
+                fontSize: "0.85rem",
+                textDecoration: "none",
+                letterSpacing: "0.03em",
+              }}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.25 + i * 0.07 }}
+              whileHover={{ color: "#FFFFFF", y: -1 }}
+            >
+              {link.label}
+            </motion.a>
+          ))}
           <motion.a
             href="mailto:support@denani.it"
             className="px-5 py-2 rounded text-xs"
