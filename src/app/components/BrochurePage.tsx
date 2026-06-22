@@ -354,7 +354,7 @@ function ModuliPage() {
       <div style={{ border:`1px solid ${CB}`, background:CBG, borderRadius:"8px", padding:"7mm", marginBottom:"4mm", textAlign:"center" }}>
         <p style={{ color:T, fontFamily:F, fontSize:"0.78rem", lineHeight:1.7, margin:0 }}>
           Per ulteriori moduli, aggiunte e personalizzazioni del piano, visita{" "}
-          <span style={{ color:A, fontWeight:600 }}>denani.it/pacchetti</span>
+          <a href="https://www.denani.it/pacchetti" target="_blank" rel="noopener noreferrer" style={{ color:A, fontWeight:600, textDecoration:"underline" }}>denani.it/pacchetti</a>
         </p>
       </div>
 
