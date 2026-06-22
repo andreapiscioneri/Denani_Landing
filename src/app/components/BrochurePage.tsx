@@ -8,7 +8,7 @@ import { jsPDF } from "jspdf";
 import {
   Shield, Headphones, GraduationCap, Layers, Server,
   Target, RefreshCw, ShieldAlert, Zap, AlertTriangle, Lock, TrendingDown, FileX,
-  Check, Clock, BookOpen, Paintbrush, Globe,
+  Check,
 } from "lucide-react";
 
 const A = "#66F2DF";
@@ -31,16 +31,9 @@ const servizi = [
 ];
 
 const pacchetti = [
-  { id:"base",    label:"Base",    titolo:"Pacchetto Base",    sub:"Manutenzione Essenziale", featured:false, features:["Aggiornamenti tecnici periodici","Monitoraggio funzionalità sito","Verifica sicurezza e vulnerabilità","Report mensile dello stato","Aggiornamento PHP e plug-in"] },
-  { id:"plus",    label:"Plus",    titolo:"Pacchetto Plus",    sub:"Manutenzione + Supporto",  featured:true,  features:["Tutto il Pacchetto Base incluso","Ore di assistenza incluse/mese","Supporto prioritario dedicato","Correzioni tecniche su richiesta","Aggiornamento contenuti editoriali","Interventi urgenti garantiti"] },
-  { id:"premium", label:"Premium", titolo:"Pacchetto Premium", sub:"Gestione Completa",        featured:false, features:["Tutto il Pacchetto Plus incluso","Pacchetto ore ampliato mensile","Monitoraggio avanzato 24/7","Consulenza evolutiva strategica","Analisi performance e UX","Pianificazione roadmap digitale","Report avanzato e KPI tracking"] },
-];
-
-const moduli = [
-  { icon:<Clock size={20} color={A} />,      label:"A", titolo:"Pacchetti Ore Assistenza",    desc:"Ore aggiuntive dedicabili a interventi migliorativi, sviluppo di nuove funzionalità o risoluzione di problematiche specifiche.", punti:["Interventi migliorativi","Nuove funzionalità","Sviluppo custom"] },
-  { icon:<BookOpen size={20} color={A} />,   label:"B", titolo:"Pacchetti Formazione",         desc:"Sessioni formative strutturate per l'utilizzo del CMS e dei tool interni, per raggiungere piena autonomia operativa.", punti:["Utilizzo CMS avanzato","Autonomia operativa","Sessioni personalizzate"] },
-  { icon:<Paintbrush size={20} color={A} />, label:"C", titolo:"Restyling Sito",               desc:"Aggiornamento completo dell'immagine grafica, revisione dell'esperienza utente e adeguamento agli standard UX/UI attuali.", punti:["Aggiornamento grafico","Revisione UX/UI","Design moderno"] },
-  { icon:<Globe size={20} color={A} />,      label:"D", titolo:"Gestione Hosting & Dominio",   desc:"Ottimizzazione dell'infrastruttura tecnica, gestione del dominio e supporto specializzato su configurazioni server.", punti:["Ottimizzazione infrastruttura","Gestione dominio","Supporto tecnico"] },
+  { id:"base",    label:"Base",    titolo:"Pacchetto Base",    sub:"Hosting & Dominio",        prezzo:400, featured:false, features:["Hosting incluso","Gestione e rinnovo dominio","Aggiornamenti tecnici periodici","Monitoraggio funzionalità sito","Verifica sicurezza e vulnerabilità","Report mensile dello stato"] },
+  { id:"plus",    label:"Plus",    titolo:"Pacchetto Plus",    sub:"Hosting, Dominio & Manutenzione", prezzo:490, featured:true,  features:["Tutto il Pacchetto Base incluso","Manutenzione tecnica mensile","Ore di assistenza incluse/mese","Supporto prioritario dedicato","Correzioni tecniche su richiesta","Aggiornamento contenuti editoriali"] },
+  { id:"premium", label:"Premium", titolo:"Pacchetto Premium", sub:"Gestione Completa + SEO/GEO/AIO",  prezzo:580, featured:false, features:["Tutto il Pacchetto Plus incluso","Ottimizzazione SEO/GEO/AIO","Monitoraggio avanzato 24/7","Consulenza evolutiva strategica","Analisi performance e UX","Report avanzato e KPI tracking"] },
 ];
 
 /* ─── SHARED HELPERS ────────────────────────────────────────────────────── */
@@ -326,7 +319,7 @@ function PacchettiPage() {
             <p style={{ color:A, fontFamily:F, fontSize:"0.72rem", marginBottom:"3.5mm" }}>{p.sub}</p>
             <div style={{ borderBottom:"1px solid rgba(102,242,223,0.12)", paddingBottom:"3.5mm", marginBottom:"3.5mm" }}>
               <span style={{ color:T, fontFamily:F, fontSize:"0.68rem" }}>Canone mensile</span>
-              <div style={{ color:A, fontFamily:F, fontSize:"1.25rem", fontWeight:700, marginTop:"2px" }}>[Euro]{" "}<span style={{ fontSize:"0.72rem", fontWeight:400, opacity:0.7 }}>/ mese</span></div>
+              <div style={{ color:A, fontFamily:F, fontSize:"1.25rem", fontWeight:700, marginTop:"2px" }}>€ {p.prezzo}{" "}<span style={{ fontSize:"0.72rem", fontWeight:400, opacity:0.7 }}>/ mese</span></div>
             </div>
             <ul style={{ listStyle:"none", padding:0, margin:0, display:"flex", flexDirection:"column", gap:"4px" }}>
               {p.features.map((f,i) => (
@@ -357,30 +350,12 @@ function ModuliPage() {
       <H2>Espandi il tuo <span style={{ color:A }}>piano di servizio</span></H2>
       <AccentLine />
 
-      {/* Module cards */}
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:"3.5mm", marginBottom:"4mm", flex:"0 0 auto" }}>
-        {moduli.map(m => (
-          <div key={m.label} style={{ border:`1px solid ${CB}`, background:CBG, borderRadius:"8px", padding:"4.5mm", display:"flex", flexDirection:"column" }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"3.5mm" }}>
-              {m.icon}
-              <span className="pdf-fix-pill" style={{ border:`1px solid rgba(102,242,223,0.28)`, color:A, fontFamily:F, fontSize:"0.56rem", height:"20px", padding:"0 8px", borderRadius:"999px", display:"inline-flex", alignItems:"center", lineHeight:"1", whiteSpace:"nowrap", textAlign:"center" }}>Modulo {m.label}</span>
-            </div>
-            <h3 style={{ color:W, fontFamily:F, fontSize:"0.8rem", fontWeight:700, lineHeight:1.3, marginBottom:"2.5mm" }}>{m.titolo}</h3>
-            <div style={{ borderBottom:"1px solid rgba(102,242,223,0.1)", paddingBottom:"2.5mm", marginBottom:"2.5mm" }}>
-              <span style={{ color:T, fontFamily:F, fontSize:"0.56rem", textTransform:"uppercase", letterSpacing:"0.1em", display:"block" }}>A partire da</span>
-              <span style={{ color:A, fontFamily:F, fontSize:"0.95rem", fontWeight:700 }}>[EURO]{" "}<span style={{ fontSize:"0.6rem", fontWeight:400, opacity:0.7 }}>/ mese</span></span>
-            </div>
-            <p style={{ color:T, fontFamily:F, fontSize:"0.66rem", lineHeight:1.6, flex:1, marginBottom:"2.5mm" }}>{m.desc}</p>
-            <ul style={{ listStyle:"none", padding:0, margin:0, display:"flex", flexDirection:"column", gap:"3px" }}>
-              {m.punti.map((p,i) => (
-                <li key={i} style={{ display:"flex", alignItems:"center", gap:"5px" }}>
-                  <div style={{ width:"3px", height:"3px", borderRadius:"50%", background:A, flexShrink:0 }} />
-                  <span style={{ color:"rgba(102,242,223,0.85)", fontFamily:F, fontSize:"0.62rem" }}>{p}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      {/* Rimando al sito per personalizzazioni */}
+      <div style={{ border:`1px solid ${CB}`, background:CBG, borderRadius:"8px", padding:"7mm", marginBottom:"4mm", textAlign:"center" }}>
+        <p style={{ color:T, fontFamily:F, fontSize:"0.78rem", lineHeight:1.7, margin:0 }}>
+          Per ulteriori moduli, aggiunte e personalizzazioni del piano, visita{" "}
+          <span style={{ color:A, fontWeight:600 }}>denani.it/pacchetti</span>
+        </p>
       </div>
 
       {/* Footer aziendale — spinto in fondo con margin-top:auto */}
