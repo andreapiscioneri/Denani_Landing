@@ -318,8 +318,8 @@ function PacchettiPage() {
             <h3 style={{ color:W, fontFamily:F, fontSize:"0.98rem", fontWeight:700, marginBottom:"1.5px" }}>{p.titolo}</h3>
             <p style={{ color:A, fontFamily:F, fontSize:"0.72rem", marginBottom:"3.5mm" }}>{p.sub}</p>
             <div style={{ borderBottom:"1px solid rgba(102,242,223,0.12)", paddingBottom:"3.5mm", marginBottom:"3.5mm" }}>
-              <span style={{ color:T, fontFamily:F, fontSize:"0.68rem" }}>Canone mensile</span>
-              <div style={{ color:A, fontFamily:F, fontSize:"1.25rem", fontWeight:700, marginTop:"2px" }}>€ {p.prezzo}{" "}<span style={{ fontSize:"0.72rem", fontWeight:400, opacity:0.7 }}>/ mese</span></div>
+              <span style={{ color:T, fontFamily:F, fontSize:"0.68rem" }}>Canone annuale</span>
+              <div style={{ color:A, fontFamily:F, fontSize:"1.25rem", fontWeight:700, marginTop:"2px" }}>€ {p.prezzo}{" "}<span style={{ fontSize:"0.72rem", fontWeight:400, opacity:0.7 }}>/ anno</span></div>
             </div>
             <ul style={{ listStyle:"none", padding:0, margin:0, display:"flex", flexDirection:"column", gap:"4px" }}>
               {p.features.map((f,i) => (
