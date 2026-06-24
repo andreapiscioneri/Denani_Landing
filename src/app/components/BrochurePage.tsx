@@ -31,9 +31,9 @@ const servizi = [
 ];
 
 const pacchetti = [
-  { id:"base",    label:"Base",    titolo:"Pacchetto Base",    sub:"Hosting & Dominio",        prezzo:400, featured:false, features:["Hosting incluso","Gestione e rinnovo dominio","Aggiornamenti tecnici periodici","Monitoraggio funzionalità sito","Verifica sicurezza e vulnerabilità","Report mensile dello stato"] },
-  { id:"plus",    label:"Plus",    titolo:"Pacchetto Plus",    sub:"Hosting, Dominio & Manutenzione", prezzo:490, featured:true,  features:["Tutto il Pacchetto Base incluso","Manutenzione tecnica mensile","Ore di assistenza incluse/mese","Supporto prioritario dedicato","Correzioni tecniche su richiesta","Aggiornamento contenuti editoriali"] },
-  { id:"premium", label:"Premium", titolo:"Pacchetto Premium", sub:"Gestione Completa + SEO/GEO/AIO",  prezzo:580, featured:false, features:["Tutto il Pacchetto Plus incluso","Ottimizzazione SEO/GEO/AIO","Monitoraggio avanzato 24/7","Consulenza evolutiva strategica","Analisi performance e UX","Report avanzato e KPI tracking"] },
+  { id:"base",    label:"Base",    titolo:"Pacchetto Base",    sub:"Hosting & Dominio",        prezzo:400, featured:false, features:["Hosting — € 330/anno","Dominio — € 70/anno","Aggiornamenti tecnici periodici","Monitoraggio funzionalità sito","Verifica sicurezza e vulnerabilità","Report mensile dello stato"] },
+  { id:"plus",    label:"Plus",    titolo:"Pacchetto Plus",    sub:"Hosting, Dominio & Manutenzione", prezzo:490, featured:true,  features:["Hosting — € 330/anno","Dominio — € 70/anno","Manutenzione — € 90/ora","Ore di assistenza incluse/mese","Supporto prioritario dedicato","Correzioni tecniche su richiesta","Aggiornamento contenuti editoriali"] },
+  { id:"premium", label:"Premium", titolo:"Pacchetto Premium", sub:"Gestione Completa + SEO/GEO/AIO",  prezzo:580, featured:false, features:["Hosting — € 330/anno","Dominio — € 70/anno","Manutenzione — € 90/ora","SEO/GEO/AIO — € 90/ora","Monitoraggio avanzato 24/7","Consulenza evolutiva strategica","Analisi performance e UX","Report avanzato e KPI tracking"] },
 ];
 
 /* ─── SHARED HELPERS ────────────────────────────────────────────────────── */
